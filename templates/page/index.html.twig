@@ -3,14 +3,28 @@
 {% block title %}Tech Blog - Accueil{% endblock %}
 
 {% block body %}
-   
-        <h1>Tech Blog</h1>
-        <p>Latest articles about IT and development.</p>
-{% for post in posts %}
-            <div class="post">
-                <h2>{{ post.title }}</h2>
+<main>
+<div class="container">
+<div class="hero">
+<h1>Tech Blog</h1>
+<p>Les dernières actualités techniques et développement, conçues pour les builders modernes.</p>
+</div>
 
-            </div>
-            {% endfor %}
-        </div>
+<div class="articles-grid">
+{% for post in posts %}
+<div class="article-card">
+{% for cat in post.categories %}
+<span class="category-badge">{{ cat.name }}</span>
+{% endfor %}
+<h2>{{ post.title }}</h2>
+<p>{{ post.content|striptags|slice(0, 150) ~ '...' }}</p>
+<div class="article-meta">{{ post.createdAt ? post.createdAt|date('d MMM Y') : 'Date inconnue' }}</div>
+<a href="{{ path('app_post', {'id': post.id}) }}" class="read-more">Lire la suite</a>
+</div>
+{% else %}
+<p>Aucun article disponible</p>
+{% endfor %}
+</div>
+</div>
+</main>
 {% endblock %}
