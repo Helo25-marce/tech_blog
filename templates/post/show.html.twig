@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>{{ post.title }}</h1>
+
+    <div class="mb-4">
+        {% for cat in post.categories %}
+            <span class="badge bg-primary me-1">{{ cat.name }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="lead mb-5">{{ post.content|nl2br }}</div>
+
+    <hr>
+
+    <h3>Commentaires ({{ post.comments|length }})</h3>
+
+    {% for comment in post.comments %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <strong>{{ comment.username }}</strong>
+                <small class="text-muted"> – {{ comment.createdAt|date('d/m/Y H:i') }}</small>
+                <p class="mt-2">{{ comment.content|nl2br }}</p>
+            </div>
+        </div>
+    {% else %}
+        <p>Aucun commentaire pour le moment.</p>
+    {% endfor %}
+
+    <hr>
+
+    <h3>Ajouter un commentaire</h3>
+
+    {{ form_start(commentform) }}
+        {{ form_widget(commentform) }}
+        <button type="btn"> {{ button_label|default('Save') }}</button>
+    {{ form_end(commentform) }}
+</div>
+{% endblock %}
